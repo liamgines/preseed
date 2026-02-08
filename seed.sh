@@ -30,7 +30,7 @@ fi
 PRESEED_CONFIG=$1
 shift
 
-OUTPUT_DEBIAN_ISO=seed-$INPUT_DEBIAN_ISO
+OUTPUT_DEBIAN_ISO=seed-$(basename $INPUT_DEBIAN_ISO)
 
 if [ ! -f $INPUT_DEBIAN_ISO ]; then
     echo "ERROR: $INPUT_DEBIAN_ISO could not be found"
