@@ -59,12 +59,16 @@ sudo rm -rf $WORKING_DIRECTORY/mnt/
 
 sudo chmod +w -R $WORKING_DIRECTORY/copy/install.amd/
 sudo gunzip $WORKING_DIRECTORY/copy/install.amd/initrd.gz
-sudo echo $PRESEED_CONFIG | sudo cpio -H newc -o -A -F $WORKING_DIRECTORY/copy/install.amd/initrd
+
+if [ ! $PRESEED_CONFIG -ef ./preseed.cfg ]; then
+    sudo cp $PRESEED_CONFIG ./preseed.cfg
+fi
+sudo echo ./preseed.cfg | sudo cpio -H newc -o -A -F $WORKING_DIRECTORY/copy/install.amd/initrd
 sudo gzip $WORKING_DIRECTORY/copy/install.amd/initrd
 sudo chmod -w -R $WORKING_DIRECTORY/copy/install.amd/
 
 # https://unix.stackexchange.com/questions/532252/how-to-automate-selection-of-type-of-installation-by-editing-isolinux
-sudo sed -i "s/append/append auto=true priority=critical file=\/cdrom\/$PRESEED_CONFIG/" $WORKING_DIRECTORY/copy/isolinux/txt.cfg
+sudo sed -i "s/append/append auto=true priority=critical file=\/cdrom\/preseed.cfg/" $WORKING_DIRECTORY/copy/isolinux/txt.cfg
 
 # https://unix.stackexchange.com/questions/566738/how-to-skip-the-need-to-choose-install-and-hit-enter-in-automated-preseeded
 sudo chmod +w $WORKING_DIRECTORY/copy/boot/grub/grub.cfg
