@@ -6,6 +6,7 @@ usage() {
 
 WORKING_DIRECTORY="seed"
 
+# https://unix.stackexchange.com/questions/173749/how-to-retroactively-make-a-script-run-as-root
 if [[ $EUID -ne 0 ]]; then
     exec sudo /bin/bash "$0" "$@"
     exit 1
